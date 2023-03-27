@@ -1,0 +1,9 @@
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Folders
+week_1_basics_n_setup/2_docker_sql/ny_taxi_postgres_data/
+
+# CSV files
+*.csv

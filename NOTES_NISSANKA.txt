@@ -1,0 +1,51 @@
+SSL issues with docker build getting packages with pip
+In the dockerfile do the follwing.
+
+RUN pip install --trusted-host pypi.org --trusted-host files.pythonhosted.org pip pandas sqlalchemy psycopg2
+
+
+
+Build the Image using:
+
+docker build -t test .   (for some reason docker build -t test:pandas . does not work properly)
+And try to start a Container using:
+
+docker run  -i -t test (run an image to create a container) - will create a new container each time you run this command
+
+docker exec -it agitated_colden bash (run container with bash as entrypoint)
+docker exec -it exciting_gagarin python (run container with python as entrypoint)
+
+
+MAKE A POSTGRES DOCKER IMAGE
+Running Postgres with Docker
+Windows
+Running Postgres on Windows (note the full path)
+
+docker run -it \
+  -e POSTGRES_USER="root" \
+  -e POSTGRES_PASSWORD="root" \
+  -e POSTGRES_DB="ny_taxi" \
+  -v c:/Users/alexe/git/data-engineering-zoomcamp/week_1_basics_n_setup/2_docker_sql/ny_taxi_postgres_data:/var/lib/postgresql/data \
+  -p 5432:5432 \
+  postgres:13
+
+OR IN ONE LINE
+docker run -it -e POSTGRES_USER="root" -e POSTGRES_PASSWORD="root" -e POSTGRES_DB="ny_taxi" -v c:/Users/nissanka.w/Documents/DataEngineering/DEZoomcamp/data-engineering-zoomcamp/week_1_basics_n_setup/2_docker_sql/ny_taxi_postgres_data:/var/lib/postgresql/data -p 5432:5432 postgres:13
+docker exec -it affectionate_newton bash (name of postgres container)
+
+TO ACCESS THE DB (from your local python enviroment/bash)
+conda install -c conda-forge pgcli - if you do not have pgcli installed yet
+
+pgcli -h localhost -p 5432 -u root -d ny_taxi <---THIS COMMAND IS RUN FROM YOUR LOCAL COMPUTER COMMAND LINE
+
+WGET to current directory (used Powershell)
+wget -v https://github.com/DataTalksClub/nyc-tlc-data/releases/download/yellow/yellow_tripdata_2021-01.csv.gz -outfile yellow_tripdata_2021-01.csv.gz
+
+
+INSTALL AND RUNNING PGADMIN (ON A DOCKER COMTAINER)-BETTER THAN PGCLI FOR DB BROWSING
+docker run -it \
+    -e PGADMIN_DEFAULT_EMAIL="admin@admin.com" \
+    -e PGADMIN_DEFAULT_PASSWORD="root" \
+    -p 8080:80 \
+    dpage/pgadmin4
+THEN GO TO BROWSER AND INPUT localhost:8080
